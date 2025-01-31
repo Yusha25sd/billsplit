@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect, getSqlClient } from '@/lib/database';
-import { group } from 'node:console';
+import { UserProfile } from '@/schemas/user';
 
 export async function GET(req: NextRequest) {
   try {
@@ -34,8 +34,8 @@ export async function GET(req: NextRequest) {
         `;
 
     // Map the result to a more usable format
-    const users = result.map((row: any) => ({
-      userId: row.user_id,
+    const users = result.map((row: UserProfile) => ({
+      userId: row.userId,
       username: row.username,
       email: row.email,
     }));

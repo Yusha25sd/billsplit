@@ -43,7 +43,7 @@ export default function ExpenseReport() {
         } else {
           toast({ title: 'Error', description: data.message, variant: 'destructive' });
         }
-      } catch (error) {
+      } catch {
         toast({ title: 'Error', description: 'Failed to fetch expense details.', variant: 'destructive' });
       } finally {
         setLoading(false);

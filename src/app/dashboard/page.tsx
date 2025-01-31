@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import { ExpenseSplit } from "@/schemas/expense";
-import { UserSearchResult } from "@/schemas/user";
+import { UserProfile, UserSearchResult } from "@/schemas/user";
 import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
 import {
@@ -34,7 +34,6 @@ const Dashboard = () => {
     description: "",
     groupId: "null",
     splits: [] as ExpenseSplit[],
-    isEqualSplit: true,
   });
 
   const [groups, setGroups] = useState<{ groupId: string; name: string }[]>(
@@ -60,26 +59,18 @@ const Dashboard = () => {
             amount: expense.amount.toString(),
             description: expense.description,
             groupId: expense.groupId || "null",
-            splits: participants.map((participant: any) => ({
+            splits: participants.map((participant: ExpenseSplit) => ({
               userId: participant.userId,
-              amountPaid: parseFloat(participant.amountPaid),
-              amountOwed: parseFloat(participant.amountOwed),
-            })),
-            isEqualSplit: participants.every(
-              (participant: any) =>
-                parseFloat(participant.amountPaid) ===
-                  expense.amount / participants.length &&
-                parseFloat(participant.amountOwed) ===
-                  expense.amount / participants.length
-            ),
+              amountPaid: participant.amountPaid,
+              amountOwed: participant.amountOwed,
+            }))
           });
 
-          const participantDetails = participants.map((participant: any) => ({
+          const participantDetails = participants.map((participant: UserProfile) => ({
             userId: participant.userId,
             username: participant.username,
             email: participant.email,
           }));
-
           setSelectedUsers(participantDetails);
         } catch (error) {
           console.error("Error fetching expense details:", error);
@@ -163,7 +154,6 @@ const Dashboard = () => {
   const handleAddUser = async (user: UserSearchResult) => {
     if (!selectedUsers.some((u) => u.userId === user.userId)) {
       setSelectedUsers((prev) => [...prev, user]);
-
       setFormData((prev) => ({
         ...prev,
         splits: [
@@ -268,7 +258,6 @@ const Dashboard = () => {
         ...split,
         amountOwed: equalAmount,
       })),
-      isEqualSplit: true,
     }));
   };
 
@@ -297,10 +286,9 @@ const Dashboard = () => {
   
         // Automatically add all group members with default splits (amountPaid = 0, amountOwed = 0)
         setSelectedUsers(groupMembers);
-        
         setFormData((prev) => ({
           ...prev,
-          splits: groupMembers.map((member: any) => ({
+          splits: groupMembers.map((member: ExpenseSplit) => ({
             userId: member.userId,
             amountPaid: 0,
             amountOwed: 0,
@@ -362,7 +350,7 @@ const Dashboard = () => {
                   <SelectValue placeholder="Select a group" />
                 </SelectTrigger>
                 <SelectContent className="bg-white text-black border border-gray-300 rounded-lg shadow-lg">
-                  <SelectItem key="null" value={'null'}>
+                  <SelectItem key="non-group" value={'null'}>
                     Non-group
                   </SelectItem>
                   {loadingGroup ? (

@@ -32,7 +32,7 @@ export default function ActivityPage() {
         } else {
           toast({ title: 'Error', description: data.message, variant: 'destructive' });
         }
-      } catch (error) {
+      } catch {
         toast({ title: 'Error', description: 'Failed to fetch expenses.', variant: 'destructive' });
       } finally {
         setLoading(false);

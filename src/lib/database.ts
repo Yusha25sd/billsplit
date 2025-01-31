@@ -1,4 +1,3 @@
-// src/lib/database.ts
 import { neon } from "@neondatabase/serverless"; // Import Neon database client
 
 // Define a connection object to track the connection state
@@ -33,7 +32,7 @@ async function dbConnect(): Promise<void> {
     connection.isConnected = true;
   } catch (error) {
     console.error('Database connection failed:', error);
-    process.exit(1); // Exit the process if connection fails
+    throw new Error("Database connection failed"); // Replace process.exit(1) with an error
   }
 }
 

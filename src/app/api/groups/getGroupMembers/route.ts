@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect, getSqlClient } from '@/lib/database';
+import { UserProfile } from '@/schemas/user';
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,7 +18,7 @@ export async function GET(req: NextRequest) {
 
     // Query to get group members based on the groupId
     const result = await sql`
-      SELECT u.user_id, u.username, u.email
+      SELECT u.user_id AS "userId", u.username, u.email
       FROM users u
       INNER JOIN group_balances gb ON u.user_id = gb.user_id
       WHERE gb.group_id = ${groupId}
@@ -25,12 +26,12 @@ export async function GET(req: NextRequest) {
     `;
 
     // Map the result to a more usable format
-    const members = result.map((row: any) => ({
-      userId: row.user_id,
+    const members = result.map((row: UserProfile) => ({
+      userId: row.userId,
       username: row.username,
       email: row.email,
     }));
-
+    console.log(members);
     return NextResponse.json({ success: true, data: members }, { status: 200 });
   } catch (error) {
     console.error('Error in getGroupMembers API:', error);

@@ -6,7 +6,7 @@ import axios from 'axios';
 export async function POST(req: NextRequest) {
   try {
     await dbConnect();
-    const { expenseId, amount, description, groupId, splits, userId, isEqualSplit = true, date } = await req.json();
+    const { expenseId, amount, description, groupId, splits, userId = true, date } = await req.json();
     
     if (!amount || !description || (groupId && !splits)) {
       return NextResponse.json({ success: false, message: 'Invalid request data.' }, { status: 400 });

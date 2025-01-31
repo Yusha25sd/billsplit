@@ -139,7 +139,7 @@ export default function CreateGroupPage() {
         )}
         {loading && <p className="text-gray-500 mt-2">Searching...</p>}
         {!loading && searchQuery.length >= 3 && searchResults.length === 0 && (
-          <p className="text-gray-500 mt-2">No results found for "{searchQuery}"</p>
+          <p className="text-gray-500 mt-2">No user found</p>
         )}
         <div className="absolute w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-md z-10">
         <ul>

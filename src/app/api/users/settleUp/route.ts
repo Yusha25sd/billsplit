@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dbConnect, getSqlClient } from '@/lib/database';
+import { GroupBalances } from '@/schemas/group';
 
 export async function GET(req: NextRequest) {
   try {
@@ -48,7 +49,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Map the results to a user-friendly format
-    const response = results.map((row: any) => ({
+    const response = results.map((row: GroupBalances & {name: string, email: string}) => ({
       memberId: row.memberId,
       name: row.name,
       email: row.email,

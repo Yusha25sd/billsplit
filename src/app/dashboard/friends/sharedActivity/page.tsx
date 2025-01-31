@@ -48,7 +48,7 @@ const SharedActivityPage = () => {
         } else {
           setError(data.message || 'Failed to fetch shared activity.');
         }
-      } catch (err) {
+      } catch {
         setError('An unexpected error occurred.');
       } finally {
         setLoading(false);

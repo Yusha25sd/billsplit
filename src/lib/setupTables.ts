@@ -63,20 +63,6 @@ export async function createTables() {
       );
     `;
 
-    // Create Settlements table
-    await sql`
-      CREATE TABLE IF NOT EXISTS settlements (
-        settlement_id SERIAL PRIMARY KEY,
-        from_user INTEGER NOT NULL,
-        to_user INTEGER NOT NULL,
-        group_id INTEGER NOT NULL,
-        amount DECIMAL NOT NULL,
-        FOREIGN KEY (from_user) REFERENCES users(user_id) ON DELETE CASCADE,
-        FOREIGN KEY (to_user) REFERENCES users(user_id) ON DELETE CASCADE,
-        FOREIGN KEY (group_id) REFERENCES groups(group_id) ON DELETE CASCADE
-      );
-    `;
-
     // Create Friend Balances table
     await sql`
       CREATE TABLE IF NOT EXISTS friend_balances (
