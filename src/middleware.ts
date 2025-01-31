@@ -8,10 +8,10 @@ export async function middleware(req: NextRequest) {
     // Get authentication token (works for API & page routes)
     const token = await getToken({ req });
 
-    // If no session/token exists, redirect to login page
     if (!token) {
-      return NextResponse.redirect(new URL('/login', req.url));
+      return NextResponse.redirect(new URL('/', req.url));
     }
+
     const sql = getSqlClient();
     const url = new URL(req.url);
     const expenseId = url.searchParams.get('expenseId'); // Extracting from query params
@@ -56,6 +56,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/error', req.url));
   }
 }
+
 export const config = {
-  matcher: ['/api/expenses/delete'],
+  matcher: ['/api/expenses/deleteExpense', '/dashboard'],
 };
+
