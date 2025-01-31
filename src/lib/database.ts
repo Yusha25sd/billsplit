@@ -20,6 +20,7 @@ const getSqlClient = () => {
 // Function to establish a connection to the database
 async function dbConnect(): Promise<void> {
   if (connection.isConnected) {
+    console.log("Already connected");
     return; // Exit if already connected
   }
 
@@ -27,6 +28,7 @@ async function dbConnect(): Promise<void> {
     sqlClient = neon(process.env.DATABASE_URL || ''); // Create a new connection if not connected yet
 
     await sqlClient`SELECT 1;`;
+    console.log("Database connected");
     connection.isConnected = true;
   } catch (error) {
     console.error('Database connection failed:', error);
