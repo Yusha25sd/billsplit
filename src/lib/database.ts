@@ -7,7 +7,7 @@ type ConnectionObject = {
 
 const connection: ConnectionObject = {}; // Initialize connection 
 
-// @ts-ignore: Ignore lint rule for this line
+// @@ts-expect-error
 let sqlClient: any;
 
 const getSqlClient = () => {
