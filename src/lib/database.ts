@@ -6,9 +6,9 @@ type ConnectionObject = {
 };
 
 const connection: ConnectionObject = {}; // Initialize connection 
-
-// @@ts-expect-error
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let sqlClient: any;
+ // Declare the sqlClient variable to hold the active connection
 
 const getSqlClient = () => {
   if (!sqlClient) {
