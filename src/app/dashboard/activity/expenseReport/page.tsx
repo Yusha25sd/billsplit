@@ -72,7 +72,7 @@ export default function ExpenseReport() {
       } else {
         toast({ title: 'Error', description: data.message, variant: 'destructive' });
       }
-    } catch (error) {
+    } catch {
       toast({ title: 'Error', description: 'Failed to delete expense.', variant: 'destructive' });
     } finally {
       setLoading(false);

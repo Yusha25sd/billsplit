@@ -1,16 +1,14 @@
-import { neon, NeonQueryFunction } from "@neondatabase/serverless"; // Import types
+import { neon } from "@neondatabase/serverless"; // Import Neon database client
 
 // Define a connection object to track the connection state
 type ConnectionObject = {
-  isConnected?: boolean; // Boolean to track connection status
+  isConnected?: boolean;  // Boolean to track connection status
 };
 
-const connection: ConnectionObject = {}; // Initialize connection state object
+const connection: ConnectionObject = {}; // Initialize connection 
+let sqlClient: any; // Declare the sqlClient variable to hold the active connection
 
-// Explicitly type sqlClient using correct generic arguments
-let sqlClient: NeonQueryFunction<true, false> | null = null; 
-
-const getSqlClient = (): NeonQueryFunction<true, false> => {
+const getSqlClient = () => {
   if (!sqlClient) {
     throw new Error("Database not connected yet");
   }
@@ -24,16 +22,14 @@ async function dbConnect(): Promise<void> {
   }
 
   try {
-    sqlClient = neon<true, false>(process.env.DATABASE_URL || ""); // Establish connection
+    sqlClient = neon(process.env.DATABASE_URL || ''); // Create a new connection if not connected yet
 
-    // Test the connection by executing a simple query (e.g., SELECT 1)
     await sqlClient`SELECT 1;`;
-
     connection.isConnected = true;
   } catch (error) {
-    console.error("Database connection failed:", error);
-    throw new Error("Database connection failed");
+    console.error('Database connection failed:', error);
+    throw new Error("Database connection failed"); // Replace process.exit(1) with an error
   }
 }
 
-export { dbConnect, getSqlClient };
+export { dbConnect, getSqlClient }; // Export the functions to use them in other parts of the app

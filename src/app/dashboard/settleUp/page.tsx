@@ -47,8 +47,8 @@ const SettleUpPage = () => {
         setSettleAmounts(initialAmounts);
 
         setError('');
-      } catch (err: any) {
-        setError(err.message || 'Something went wrong.');
+      } catch (err) {
+        setError('Something went wrong.');
       } finally {
         setLoading(false);
       }
