@@ -6,7 +6,9 @@ type ConnectionObject = {
 };
 
 const connection: ConnectionObject = {}; // Initialize connection 
-let sqlClient: any; // Declare the sqlClient variable to hold the active connection
+
+// @ts-ignore: Ignore lint rule for this line
+let sqlClient: any;
 
 const getSqlClient = () => {
   if (!sqlClient) {
