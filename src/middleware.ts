@@ -58,6 +58,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/expenses/deleteExpense', '/dashboard'],
+  matcher: ['/api/expenses/delete'],
 };
 

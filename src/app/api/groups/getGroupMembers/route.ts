@@ -31,7 +31,6 @@ export async function GET(req: NextRequest) {
       username: row.username,
       email: row.email,
     }));
-    console.log(members);
     return NextResponse.json({ success: true, data: members }, { status: 200 });
   } catch (error) {
     console.error('Error in getGroupMembers API:', error);

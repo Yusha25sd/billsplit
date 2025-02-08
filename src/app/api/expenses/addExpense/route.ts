@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
   try {
     await dbConnect();
     const { expenseId, amount, description, groupId, splits, userId, date } = await req.json();
-    console.log(expenseId, amount, description, groupId, splits, userId, date);
     if (!amount || !description || (groupId && !splits)) {
       return NextResponse.json({ success: false, message: 'Invalid request data.' }, { status: 400 });
     }
